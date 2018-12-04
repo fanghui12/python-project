@@ -1,0 +1,9 @@
+dbc_file: geely.dbc
+protocol_conf: geely.yml
+car_type: geely
+sender_list: []
+sender: MAB
+black_list: []
+
+output_dir: output/
+

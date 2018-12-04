@@ -1,0 +1,414 @@
+car_type: geely
+protocols:
+  '125':
+    id: '125'
+    name: esc_status_125
+    protocol_type: report
+    sender: GW
+    vars:
+    - {bit: 15, description: "\u6B64\u4FE1\u53F7\u9002\u7528\u4E8EESC\u914D\u7F6E",
+      is_signed_var: false, len: 13, name: ESC_VehicleSpeed, offset: 0.0, order: motorola,
+      physical_range: '[0|460.6875]', physical_unit: KPH, precision: 0.05625, type: double}
+    - {bit: 18, description: "\u6B64\u4FE1\u53F7\u9002\u7528\u4E8EESC\u914D\u7F6E",
+      is_signed_var: false, len: 1, name: ESC_VehicleSpeedInvalid, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+  1e2:
+    id: 1e2
+    name: peps_message_sts_1e2
+    protocol_type: report
+    sender: BCM
+    vars:
+    - {bit: 19, is_signed_var: false, len: 2, name: PEPS_RKE_RemoteACControl, offset: 0.0,
+      order: motorola, physical_range: '[0|3]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - {bit: 1, is_signed_var: false, len: 2, name: PEPS_PowerModeValidity, offset: 0.0,
+      order: motorola, physical_range: '[0|3]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - {bit: 4, is_signed_var: false, len: 3, name: PEPS_PowerMode, offset: 0.0, order: motorola,
+      physical_range: '[0|7]', physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 7, is_signed_var: false, len: 1, name: PEPS_RemoteControlSt, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+  1f0:
+    id: 1f0
+    name: bcm_lightchimereq_1f0
+    protocol_type: report
+    sender: BCM
+    vars:
+    - {bit: 39, is_signed_var: false, len: 8, name: BCM_SolarRightSens_ADValue, offset: 0.0,
+      order: motorola, physical_range: '[0|1020.0005]', physical_unit: W/m2, precision: 4.01575,
+      type: double}
+    - {bit: 47, is_signed_var: false, len: 8, name: BCM_SolarLeftSens_ADValue, offset: 0.0,
+      order: motorola, physical_range: '[0|1020.0005]', physical_unit: W/m2, precision: 4.01575,
+      type: double}
+  '288':
+    id: '288'
+    name: ems_enginedriverinfo_288
+    protocol_type: report
+    sender: GW
+    vars:
+    - {bit: 7, is_signed_var: false, len: 8, name: EMS_EngineCoolantTemperature, offset: -36.8,
+      order: motorola, physical_range: '[-36.8|137.2]', physical_unit: "\xB0C", precision: 0.75,
+      type: double}
+    - {bit: 8, is_signed_var: false, len: 1, name: EMS_EngineCoolantTempInvalid, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+  '292':
+    id: '292'
+    name: tbox_remcon_292
+    protocol_type: report
+    sender: GW
+    vars:
+    - {bit: 10, description: "\u5F53\u76F8\u5E94\u547D\u4EE4\u89E6\u53D1\u65F6\uFF0C\
+        TBOX\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u90013\u5E27\uFF0C\u4E4B\
+        \u540E\u6062\u590D\u5230No inquire", is_signed_var: false, len: 1, name: TBOX_Inquire_PM25,
+      offset: 0.0, order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 12, description: "\u5F53\u76F8\u5E94\u547D\u4EE4\u89E6\u53D1\u65F6\uFF0C\
+        TBOX\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u90013\u5E27\uFF0C\u4E4B\
+        \u540E\u6062\u590D\u5230No Request", is_signed_var: false, len: 2, name: TBOX_AirCleanerReq,
+      offset: 0.0, order: motorola, physical_range: '[0|3]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - {bit: 28, description: "\u5F53\u76F8\u5E94\u547D\u4EE4\u89E6\u53D1\u65F6\uFF0C\
+        TBOX\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u90013\u5E27\uFF0C\u4E4B\
+        \u540E\u6062\u590D\u5230Not set", is_signed_var: false, len: 5, name: TBOX_TempReq,
+      offset: 17.0, order: motorola, physical_range: '[17.5|31.5]', physical_unit: "\u2103",
+      precision: 0.5, type: double}
+    - {bit: 31, description: "\u5F53\u76F8\u5E94\u547D\u4EE4\u89E6\u53D1\u65F6\uFF0C\
+        TBOX\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u90013\u5E27\uFF0C\u4E4B\
+        \u540E\u6062\u590D\u5230No Request", is_signed_var: false, len: 2, name: TBOX_AirConditionerReq,
+      offset: 0.0, order: motorola, physical_range: '[0|3]', physical_unit: bit, precision: 1.0,
+      type: int}
+  2a5:
+    id: 2a5
+    name: mmi_ac_command_2a5
+    protocol_type: report
+    sender: GW
+    vars:
+    - {bit: 30, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 2, name: MMI_RCPSet, offset: 0.0, order: motorola, physical_range: '[0|3]',
+      physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 36, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230Not set", is_signed_var: false,
+      len: 5, name: MMI_RightSetTemp, offset: 17.0, order: motorola, physical_range: '[17.5|31.5]',
+      physical_unit: "\u2103", precision: 0.5, type: double}
+    - {bit: 28, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230Not set", is_signed_var: false,
+      len: 5, name: MMI_LeftSetTemp, offset: 17.0, order: motorola, physical_range: '[17.5|31.5]',
+      physical_unit: "\u2103", precision: 0.5, type: double}
+    - {bit: 23, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Request", is_signed_var: false,
+      len: 2, name: MMI_RearKeyLockSet, offset: 0.0, order: motorola, physical_range: '[0|3]',
+      physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 20, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_AirConditionerPowerKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 18, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230Not set", is_signed_var: false,
+      len: 3, name: MMI_AirDistributionModeReq, offset: 0.0, order: motorola, physical_range: '[0|7]',
+      physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 15, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_IONIZERKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 13, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_DualKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 11, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230Not set", is_signed_var: false,
+      len: 4, name: MMI_BlowerFanLevel, offset: 0.0, order: motorola, physical_range: '[0|15]',
+      physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 7, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_AcKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 6, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_AqsKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 5, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_FreshReciKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 3, is_signed_var: false, len: 1, name: MMI_FrontDefrostKey, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 2, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_MaxAcKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 1, is_signed_var: false, len: 1, name: MMI_AC_OnKey, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 0, description: "\u5F53\u76F8\u5E94\u7684\u6309\u952E\u64CD\u4F5C\u89E6\
+        \u53D1\u65F6\uFF0CMMI\u5C06\u547D\u4EE4\u8BF7\u6C42\u8FDE\u7EED\u53D1\u9001\
+        3\u5E27\uFF0C\u4E4B\u540E\u6062\u590D\u5230No Press", is_signed_var: false,
+      len: 1, name: MMI_AutoKey, offset: 0.0, order: motorola, physical_range: '[0|1]',
+      physical_unit: bit, precision: 1.0, type: bool}
+  2f1:
+    id: 2f1
+    name: ac_reqsts_2f1
+    protocol_type: report
+    sender: AC
+    vars:
+    - {bit: 7, is_signed_var: false, len: 1, name: AC_InsideTemperatureInvalid, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 55, is_signed_var: false, len: 8, name: AC_InsideTemperature, offset: -40.0,
+      order: motorola, physical_range: '[-40|87]', physical_unit: "\xB0C", precision: 0.5,
+      type: double}
+    - bit: 3
+      description: "\uFF08\u542F\u505C\u7CFB\u7EDF\u4F7F\u7528\uFF09"
+      enum: {0: AC_SSM_STARTREQ_NO_REQUEST, 1: AC_SSM_STARTREQ_AUTO_START_REQUEST}
+      is_signed_var: false
+      len: 1
+      name: AC_SSM_StartReq
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|1]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - bit: 2
+      description: "\uFF08\u542F\u505C\u7CFB\u7EDF\u4F7F\u7528\uFF09"
+      enum: {0: AC_SSM_ALLOWANCE_ALLOWANCE_ENGINE_AUTO_STOP, 1: AC_SSM_ALLOWANCE_PROHIBIT_ENGINE_AUTO_STOP}
+      is_signed_var: false
+      len: 1
+      name: AC_SSM_Allowance
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|1]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - bit: 0
+      description: "HVAC\u8BF7\u6C42\u4FE1\u53F7\u5F00\u5173\u538B\u7F29\u673A\u79BB\
+        \u5408"
+      enum: {0: AC_ACCOMPREQ_AC_COMPRESS_REQ_OFF, 1: AC_ACCOMPREQ_AC_COMPRESS_REQ_ON}
+      is_signed_var: false
+      len: 1
+      name: AC_ACCompReq
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|1]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - {bit: 1, is_signed_var: false, len: 1, name: AC_AmbientTemperatureInvalid, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - bit: 4
+      description: "\u91C7\u7528\u4E09\u6001\u538B\u529B\u5F00\u5173\u4E0D\u9700\u8981\
+        \uFF1B\u91C7\u7528\u538B\u529B\u4F20\u611F\u5668\u9700\u8981"
+      enum: {0: AC_ACCOMPREQINVALID_VALID, 1: AC_ACCOMPREQINVALID_INVALID}
+      is_signed_var: false
+      len: 1
+      name: AC_ACCompReqInvalid
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|1]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - {bit: 5, is_signed_var: false, len: 1, name: AC_FanStatus, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 15, is_signed_var: false, len: 8, name: AC_AmbientTemperature, offset: -40.0,
+      order: motorola, physical_range: '[-40|60]', physical_unit: "\xB0C", precision: 0.5,
+      type: double}
+    - {bit: 23, is_signed_var: false, len: 12, name: AC_PM25InDen, offset: 0.0, order: motorola,
+      physical_range: '[0|4095]', physical_unit: ug/m^3, precision: 1.0, type: int}
+    - {bit: 27, is_signed_var: false, len: 12, name: AC_PM25OutDen, offset: 0.0, order: motorola,
+      physical_range: '[0|4095]', physical_unit: ug/m^3, precision: 1.0, type: int}
+    - bit: 42
+      description: "0x0: Level 1 PM2.5<35 0x1: Level 2 PM2.5<75 And PM2.5\u226535\
+        \ 0x2: Level 3 PM2.5<115 And PM2.5\u226575 0x3: Level 4 PM2.5<150 And PM2.5\u2265\
+        115 0x4: Level 5 PM2.5<250 And PM2.5\u2265150 0x5: Level 6 PM2.5<999 And PM2.5\u2265\
+        250"
+      enum: {0: AC_AIRINQLEVEL_LEVEL_1, 1: AC_AIRINQLEVEL_LEVEL_2, 2: AC_AIRINQLEVEL_LEVEL_3,
+        3: AC_AIRINQLEVEL_LEVEL_4, 4: AC_AIRINQLEVEL_LEVEL_5, 5: AC_AIRINQLEVEL_LEVEL_6,
+        6: AC_AIRINQLEVEL_RESERVED, 7: AC_AIRINQLEVEL_INVALID}
+      is_signed_var: false
+      len: 3
+      name: AC_AirInQLevel
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|7]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - bit: 45
+      description: "0x0: Level 1 PM2.5<35 0x1: Level 2 PM2.5<75 And PM2.5\u226535\
+        \ 0x2: Level 3 PM2.5<115 And PM2.5\u226575 0x3: Level 4 PM2.5<150 And PM2.5\u2265\
+        115 0x4: Level 5 PM2.5<250 And PM2.5\u2265150 0x5: Level 6 PM2.5<999 And PM2.5\u2265\
+        250"
+      enum: {0: AC_AIROUTQLEVEL_LEVEL_1, 1: AC_AIROUTQLEVEL_LEVEL_2, 2: AC_AIROUTQLEVEL_LEVEL_3,
+        3: AC_AIROUTQLEVEL_LEVEL_4, 4: AC_AIROUTQLEVEL_LEVEL_5, 5: AC_AIROUTQLEVEL_LEVEL_6,
+        6: AC_AIROUTQLEVEL_RESERVED, 7: AC_AIROUTQLEVEL_INVALID}
+      is_signed_var: false
+      len: 3
+      name: AC_AirOutQLevel
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|7]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - bit: 47
+      enum: {0: AC_PM25STS_INITIAL, 1: AC_PM25STS_COLLECTING, 2: AC_PM25STS_COMPLETE,
+        3: AC_PM25STS_ERROR}
+      is_signed_var: false
+      len: 2
+      name: AC_PM25Sts
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|3]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+  2f2:
+    id: 2f2
+    name: ac_status_info_2f2
+    protocol_type: report
+    sender: AC
+    vars:
+    - {bit: 0, is_signed_var: false, len: 1, name: AC_AutoState, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 1, is_signed_var: false, len: 1, name: AC_DisplayActive, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: '', precision: 1.0,
+      type: bool}
+    - {bit: 7, is_signed_var: false, len: 1, name: AC_RCPState, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: '', precision: 1.0, type: bool}
+    - {bit: 2, is_signed_var: false, len: 1, name: AC_MaxAcState, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 3, is_signed_var: false, len: 1, name: AC_FrontDefrostState, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 5, is_signed_var: false, len: 2, name: AC_IntakeAirState, offset: 0.0,
+      order: motorola, physical_range: '[0|3]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - {bit: 6, is_signed_var: false, len: 1, name: AC_AqsState, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 11, is_signed_var: false, len: 4, name: AC_BlowerLevel, offset: 0.0, order: motorola,
+      physical_range: '[0|15]', physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 13, is_signed_var: false, len: 1, name: AC_DualState, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 15, is_signed_var: false, len: 2, name: AC_IONIZERState, offset: 0.0,
+      order: motorola, physical_range: '[0|3]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - bit: 18
+      enum: {0: AC_AIRDISTRIBUTIONMODE_FACE, 1: AC_AIRDISTRIBUTIONMODE_FOOT_FACE,
+        2: AC_AIRDISTRIBUTIONMODE_FOOT, 3: AC_AIRDISTRIBUTIONMODE_FOOT_SCREEN, 4: AC_AIRDISTRIBUTIONMODE_SCREEN,
+        5: AC_AIRDISTRIBUTIONMODE_RESERVED, 6: AC_AIRDISTRIBUTIONMODE_RESERVED, 7: AC_AIRDISTRIBUTIONMODE_INVALID}
+      is_signed_var: false
+      len: 3
+      name: AC_AirDistributionMode
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|7]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+    - {bit: 20, is_signed_var: false, len: 1, name: AC_OnState, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 22, is_signed_var: false, len: 1, name: AC_RearKeyLockSts, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 28, is_signed_var: false, len: 5, name: AC_LeftSetTemperature, offset: 17.0,
+      order: motorola, physical_range: '[17.5|31.5]', physical_unit: "\u2103", precision: 0.5,
+      type: double}
+    - {bit: 31, is_signed_var: false, len: 1, name: AC_AirCleanState, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 36, is_signed_var: false, len: 5, name: AC_RightSetTemperature, offset: 17.0,
+      order: motorola, physical_range: '[17.5|31.5]', physical_unit: "\u2103", precision: 0.5,
+      type: double}
+    - bit: 39
+      enum: {0: AC_REMOTECONTROLST_NOT_REMOTE_CONTROL_MODE, 1: AC_REMOTECONTROLST_REMOTE_CONTROL_MODE}
+      is_signed_var: false
+      len: 1
+      name: AC_RemoteControlSt
+      offset: 0.0
+      order: motorola
+      physical_range: '[0|1]'
+      physical_unit: bit
+      precision: 1.0
+      type: enum
+  '400':
+    id: '400'
+    name: nwm_msg_400
+    protocol_type: report
+    sender: NMNode
+    vars:
+    - {bit: 8, is_signed_var: false, len: 1, name: NWM_RMR, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 16, is_signed_var: false, len: 1, name: NWM_NMSts, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 31, is_signed_var: false, len: 8, name: NWM_Wakeup, offset: 0.0, order: motorola,
+      physical_range: '[0|255]', physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 39, is_signed_var: false, len: 8, name: NWM_Staywake_reasons, offset: 0.0,
+      order: motorola, physical_range: '[0|255]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - {bit: 12, is_signed_var: false, len: 1, name: NWM_AWB, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 7, is_signed_var: false, len: 8, name: NWM_Address, offset: 0.0, order: motorola,
+      physical_range: '[0|127]', physical_unit: bit, precision: 1.0, type: int}
+  '406':
+    id: '406'
+    name: nwm_ac_406
+    protocol_type: report
+    sender: AC
+    vars:
+    - {bit: 39, is_signed_var: false, len: 32, name: AC_Staywake_reasons, offset: 0.0,
+      order: motorola, physical_range: '[0|4294967295]', physical_unit: bit, precision: 1.0,
+      type: int}
+    - {bit: 7, is_signed_var: false, len: 8, name: AC_Address, offset: 0.0, order: motorola,
+      physical_range: '[0|127]', physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 8, is_signed_var: false, len: 1, name: AC_RMR, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 12, is_signed_var: false, len: 1, name: AC_AWB, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 24, is_signed_var: false, len: 1, name: AC_NMSts, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
+    - {bit: 23, is_signed_var: false, len: 8, name: AC_Wakeup_reasons, offset: 0.0,
+      order: motorola, physical_range: '[0|255]', physical_unit: bit, precision: 1.0,
+      type: int}
+  '85':
+    id: '85'
+    name: ems_enginerpm_85
+    protocol_type: report
+    sender: GW
+    vars:
+    - {bit: 42, description: "\uFF08\u542F\u505C\u7CFB\u7EDF\u4F7F\u7528\uFF09", is_signed_var: false,
+      len: 3, name: EMS_SSMStatus, offset: 0.0, order: motorola, physical_range: '[0|7]',
+      physical_unit: bit, precision: 1.0, type: int}
+    - {bit: 23, is_signed_var: false, len: 16, name: EMS_EngineSpeedRPM, offset: 0.0,
+      order: motorola, physical_range: '[0|16383.5]', physical_unit: RPM, precision: 0.25,
+      type: double}
+    - {bit: 44, is_signed_var: false, len: 1, name: EMS_EngineSpeedRPMInvalid, offset: 0.0,
+      order: motorola, physical_range: '[0|1]', physical_unit: bit, precision: 1.0,
+      type: bool}
+    - {bit: 47, is_signed_var: false, len: 3, name: EMS_EngStatus, offset: 0.0, order: motorola,
+      physical_range: '[0|7]', physical_unit: bit, precision: 1.0, type: int}
+  '86':
+    id: '86'
+    name: ems_enginestatus_86
+    protocol_type: report
+    sender: GW
+    vars:
+    - {bit: 48, is_signed_var: false, len: 1, name: EMS_ACStatus, offset: 0.0, order: motorola,
+      physical_range: '[0|1]', physical_unit: bit, precision: 1.0, type: bool}
