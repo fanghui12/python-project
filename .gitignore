@@ -5,5 +5,4 @@
 *.tar.gz
 *.p
 *.weights
-*.png
 *.h5
