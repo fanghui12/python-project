@@ -1,0 +1,9 @@
+*.mp4
+*.ckpt
+*.index
+*.data*
+*.tar.gz
+*.p
+*.weights
+*.png
+*.h5
