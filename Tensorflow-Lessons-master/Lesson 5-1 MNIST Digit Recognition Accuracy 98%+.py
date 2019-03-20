@@ -10,24 +10,24 @@ batch_size = 100
 n_batch = mnist.train.num_examples // batch_size
 
 # define placeholders
-x = tf.placeholder(tf.float32, [None, 784])
-y = tf.placeholder(tf.float32, [None, 10])
-keep_prob = tf.placeholder(tf.float32)
-lr = tf.Variable(0.001, dtype=tf.float32)
+x = tf.placeholder(tf.float32, [None, 784],name='x')
+y = tf.placeholder(tf.float32, [None, 10],name='y')
+keep_prob = tf.placeholder(tf.float32,name ='keep_prob')
+lr = tf.Variable(0.001, dtype=tf.float32,name='lr')
 
 # create simple NeuroNet
-W1 = tf.Variable(tf.truncated_normal([784, 500], stddev=0.1))
-b1 = tf.Variable(tf.zeros([500]) + 0.1)
+W1 = tf.Variable(tf.truncated_normal([784, 500], stddev=0.1),name='W1')
+b1 = tf.Variable(tf.zeros([500]) + 0.1,name='b1')
 L1 = tf.nn.tanh(tf.matmul(x, W1) + b1)
 L1_drop = tf.nn.dropout(L1, keep_prob)
 
-W2 = tf.Variable(tf.truncated_normal([500, 300], stddev=0.1))
-b2 = tf.Variable(tf.zeros([300]) + 0.1)
+W2 = tf.Variable(tf.truncated_normal([500, 300], stddev=0.1),name='W2')
+b2 = tf.Variable(tf.zeros([300]) + 0.1,name='b2')
 L2 = tf.nn.tanh(tf.matmul(L1_drop, W2) + b2)
 L2_drop = tf.nn.dropout(L2, keep_prob)
 
-W3 = tf.Variable(tf.truncated_normal([300, 10], stddev=0.1))
-b3 = tf.Variable(tf.zeros([10]) + 0.1)
+W3 = tf.Variable(tf.truncated_normal([300, 10], stddev=0.1),name='W3')
+b3 = tf.Variable(tf.zeros([10]) + 0.1,name='b3')
 prediction = tf.nn.softmax(tf.matmul(L2_drop, W3) + b3)
 
 # cost function
@@ -53,6 +53,9 @@ merged = tf.summary.merge_all()
 
 save_file = 'mode/mnist_model.ckpt'
 saver = tf.train.Saver()
+
+# 假如需要保存y，以便在预测时使用
+tf.add_to_collection('pred_network', prediction)
 
 with tf.Session() as sess:
     sess.run(init)
