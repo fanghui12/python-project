@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 # load dataset
-mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
+mnist = input_data.read_data_sets("../MNIST_data", one_hot=True)
 
 # define batch size
 batch_size = 100
@@ -28,7 +28,7 @@ L2_drop = tf.nn.dropout(L2, keep_prob)
 
 W3 = tf.Variable(tf.truncated_normal([300, 10], stddev=0.1),name='W3')
 b3 = tf.Variable(tf.zeros([10]) + 0.1,name='b3')
-prediction = tf.nn.softmax(tf.matmul(L2_drop, W3) + b3)
+prediction = tf.nn.softmax(tf.matmul(L2_drop, W3) + b3,name='prediction')
 
 # cost function
 with tf.name_scope('loss'):

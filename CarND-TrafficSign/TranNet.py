@@ -16,8 +16,8 @@ def LeNet(x):
 
     # Layer 1
     # Conv
-    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 1, 6), mean=mu, stddev=sigma))
-    conv1_b = tf.Variable(tf.zeros(6))
+    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 1, 6), mean=mu, stddev=sigma),name='conv1_W')
+    conv1_b = tf.Variable(tf.zeros(6),name='conv1_b')
     conv1 = tf.nn.conv2d(x, conv1_W, strides=[1, 1, 1, 1], padding="VALID") + conv1_b
     # Input : 32 * 32 * 1
     # Output: 28 * 28 * 6
@@ -31,8 +31,8 @@ def LeNet(x):
 
     # Layer 2
     # Conv
-    conv2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 6, 16), mean=mu, stddev=sigma))
-    conv2_b = tf.Variable(tf.zeros(16))
+    conv2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 6, 16), mean=mu, stddev=sigma),name='conv2_W')
+    conv2_b = tf.Variable(tf.zeros(16),name='conv2_b')
     conv2 = tf.nn.conv2d(conv1, conv2_W, strides=[1, 1, 1, 1], padding="VALID") + conv2_b
     # Output: 10 * 10 * 16
 
@@ -49,8 +49,8 @@ def LeNet(x):
 
     # Layer 3
     # Fully onnected
-    fc1_W = tf.Variable(tf.truncated_normal(shape=(400, 120), mean=mu, stddev=sigma))
-    fc1_b = tf.Variable(tf.zeros(120))
+    fc1_W = tf.Variable(tf.truncated_normal(shape=(400, 120), mean=mu, stddev=sigma),name='fc1_W')
+    fc1_b = tf.Variable(tf.zeros(120),name='fc1_b')
     fc1 = tf.matmul(fc0, fc1_W) + fc1_b
 
     # Activation
@@ -61,8 +61,8 @@ def LeNet(x):
 
     # Layer 4
     # Fully connnected
-    fc2_W = tf.Variable(tf.truncated_normal(shape=(120, 84), mean=mu, stddev=sigma))
-    fc2_b = tf.Variable(tf.zeros(84))
+    fc2_W = tf.Variable(tf.truncated_normal(shape=(120, 84), mean=mu, stddev=sigma),name='fc2_W')
+    fc2_b = tf.Variable(tf.zeros(84),name='fc2_b')
     fc2 = tf.matmul(fc1, fc2_W) + fc2_b
 
     # Activation
@@ -73,8 +73,8 @@ def LeNet(x):
 
     # Layer 5
     # Fully connected
-    fc3_W = tf.Variable(tf.truncated_normal(shape=(84, n_classes), mean=mu, stddev=sigma))
-    fc3_b = tf.Variable(tf.zeros(n_classes))
+    fc3_W = tf.Variable(tf.truncated_normal(shape=(84, n_classes), mean=mu, stddev=sigma),name='fc3_W')
+    fc3_b = tf.Variable(tf.zeros(n_classes),name='fc3_b')
     logits = tf.matmul(fc2, fc3_W) + fc3_b
 
     return logits
@@ -148,8 +148,8 @@ EPOCHS = 5
 BATCH_SIZE = 128
 
 
-x = tf.placeholder(tf.float32, (None, 32,32,1))
-y = tf.placeholder(tf.int32, (None))
+x = tf.placeholder(tf.float32, (None, 32,32,1),name='x')
+y = tf.placeholder(tf.int32, (None),name='y')
 one_hot_y = tf.one_hot(y, n_classes)
 # Dropout 保留的概率，降低过拟合。
 keep_prob = tf.placeholder(tf.float32)
@@ -158,19 +158,32 @@ learning_rate = 0.001
 
 logits = LeNet(x)
 
-correct_prediction = tf.equal(tf.argmax(logits,1), tf.argmax(one_hot_y,1))
-accuracy_operation = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+# 假如需要保存y，以便在预测时使用
+tf.add_to_collection('pred_network', logits)
 
+correct_prediction = tf.equal(tf.argmax(logits,1), tf.argmax(one_hot_y,1))
+with tf.name_scope('accuracy'):
+   accuracy_operation = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+tf.summary.scalar('accuracy', accuracy_operation)
 cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=one_hot_y, logits=logits)
-loss_operation = tf.reduce_mean(cross_entropy)
+# cost function
+with tf.name_scope('loss'):
+   loss_operation = tf.reduce_mean(cross_entropy)
+tf.summary.scalar('loss', loss_operation)
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
 training_operation = optimizer.minimize(loss_operation)
 
+# combine all summaries
+merged = tf.summary.merge_all()
+
 save_file = 'lenet/train_model.ckpt'
 saver = tf.train.Saver()
+init = tf.global_variables_initializer()
 with tf.Session() as sess:
+    sess.run(init)
+    writer = tf.summary.FileWriter('logs/', sess.graph)
     num_examples = len(X_train_norm)
-    saver.restore(sess, save_file)
+    #saver.restore(sess, save_file)
 
     test_accuracy = evaluate(X_test_norm, y_test)
     print("Test Accuracy = {:.3f}".format(test_accuracy))
@@ -180,8 +193,9 @@ with tf.Session() as sess:
         for offset in range(0, num_examples, BATCH_SIZE):
             end = offset + BATCH_SIZE
             batch_x, batch_y = X_train_norm[offset:end], y_train[offset:end]
-            sess.run(training_operation, feed_dict={x: batch_x, y: batch_y, keep_prob: 0.5})
+            summary,_=sess.run([merged,training_operation], feed_dict={x: batch_x, y: batch_y, keep_prob: 1.0})
 
+        writer.add_summary(summary, offset)
         validation_accuracy = evaluate(X_valid_norm, y_valid)
         print("EPOCH {} ...".format(i + 1))
         print("Validation Accuracy = {:.3f}".format(validation_accuracy))
