@@ -30,10 +30,10 @@ def bias_variable(shape,name):
     return tf.Variable(initial,name=name)
 #卷积层
 def conv2d(x,W):
-    return tf.nn.conv2d(x,W,strides=[1,1,1,1],padding='SAME')
+    return tf.nn.conv2d(x,W,strides=[1,1,1,1],padding='VALID')
 #池化层
 def max_pool_2x2(x):
-    return tf.nn.max_pool(x,ksize=[1,2,2,1],strides=[1,2,2,1],padding='SAME')
+    return tf.nn.max_pool(x,ksize=[1,2,2,1],strides=[1,2,2,1],padding='VALID')
 #命名空间
 with tf.name_scope('input'):
     #定义两个placeholder
@@ -53,7 +53,7 @@ with tf.name_scope('Conv1'):
     with tf.name_scope('relu'):
         h_conv1=tf.nn.relu(conv2d_1)
     with tf.name_scope('h_pool1'):
-        h_pool1= max_pool_2x2(h_conv1)#14*14*32
+        h_pool1= max_pool_2x2(h_conv1)#12*12*32
 
 with tf.name_scope('Conv2'):
     with tf.name_scope('W_conv2'):
@@ -62,24 +62,24 @@ with tf.name_scope('Conv2'):
         b_conv2=bias_variable([64],name='b_conv2')#每个卷积核对应一个偏置值
 
     with tf.name_scope('conv2d_2'):
-        conv2d_2 = conv2d(h_pool1,W_conv2)+b_conv2
+        conv2d_2 = conv2d(h_pool1,W_conv2)+b_conv2#8*8*64
     with tf.name_scope('relu'):
         h_conv2=tf.nn.relu(conv2d_2)
     with tf.name_scope('h_pool2'):
-        h_pool2= max_pool_2x2(h_conv2)#7*7*64
+        h_pool2= max_pool_2x2(h_conv2)#4*4*64
 
-#28*28的图片第一次卷积后还是28*28，第一次池化之后变成14*14
-#第二次卷积后为14*14，第二次池化后变为7*7
-#经过上面的操作以后得到64张7*7的平面
+#28*28的图片第一次卷积后还是24*24，第一次池化之后变成12*12
+#第二次卷积后为8*8，第二次池化后变为4*4
+#经过上面的操作以后得到64张4*4的平面
 
 with tf.name_scope('fc1'):
     with tf.name_scope('W_fc1'):
-        W_fc1 = weight_variable([7*7*64,1024],name='W_fc1')
+        W_fc1 = weight_variable([4*4*64,1024],name='W_fc1')
     with tf.name_scope('b_fc1'):
         b_fc1 = bias_variable([1024],name='b_fc1')#1024个节点
     #把池化层的输出扁平化为1维
     with tf.name_scope('h_pool2_flat'):
-        h_pool2_flat = tf.reshape(h_pool2,[-1,7*7*64],name='h_pool2_flat')
+        h_pool2_flat = tf.reshape(h_pool2,[-1,4*4*64],name='h_pool2_flat')
     #求第一个全连接层的输出
     with tf.name_scope('wx_plus_b1'):
         wx_plus_b1=tf.matmul(h_pool2_flat,W_fc1)+b_fc1
@@ -109,7 +109,7 @@ with tf.name_scope('cross_entropy'):
     tf.summary.scalar('cross_entropy',cross_entroyp)
 #使用adamoptimizer进行优化
 with tf.name_scope('train'):
-    train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entroyp)
+    train_step = tf.train.AdamOptimizer(5e-5).minimize(cross_entroyp)
 
 #求准确率
 with tf.name_scope('accuracy'):
@@ -131,8 +131,8 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     train_writer = tf.summary.FileWriter('logs/train',sess.graph)
     test_writer = tf.summary.FileWriter('logs/test',sess.graph)
-    #saver.restore(sess, save_file)
-    for epoch in range(1001):
+    saver.restore(sess, save_file)
+    for epoch in range(2001):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
         sess.run(train_step, feed_dict={x: batch_xs, y: batch_ys,keep_prob:1.0})
         #记录训练集计算的参数

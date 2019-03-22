@@ -14,26 +14,26 @@ tf.reset_default_graph()
 
 from tensorflow.examples.tutorials.mnist import input_data
 
-learning_rate = 0.001
+learning_rate = 0.008
 n_input = 784  # MNIST 数据输入 (图片尺寸: 28*28)
 n_classes = 10  # MNIST 总计类别 (数字 0-9)
 
 # Import MNIST data
 # 加载 MNIST 数据
-mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+mnist = input_data.read_data_sets('../MNIST_data', one_hot=True)
 
 # Features and Labels
 # 特征和标签
-features = tf.placeholder(tf.float32, [None, n_input])
-labels = tf.placeholder(tf.float32, [None, n_classes])
+features = tf.placeholder(tf.float32, [None, n_input],name='x')
+labels = tf.placeholder(tf.float32, [None, n_classes],name='y')
 
 # Weights & bias
 # 权重和偏置项
-weights = tf.Variable(tf.random_normal([n_input, n_classes]))
-bias = tf.Variable(tf.random_normal([n_classes]))
+weights = tf.Variable(tf.random_normal([n_input, n_classes]),name='weights')
+bias = tf.Variable(tf.random_normal([n_classes]),name='bias')
 
 # Logits - xW + b
-logits = tf.add(tf.matmul(features, weights), bias)
+logits = tf.add(tf.matmul(features, weights), bias,name='logits')
 
 # Define loss and optimizer
 # 定义损失函数和优化器
@@ -48,7 +48,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 import math
 
-save_file = 'mn/train_model.ckpt1'
+save_file = 'mode/train_model.ckpt'
 batch_size = 128
 n_epochs = 500
 
@@ -57,10 +57,8 @@ saver = tf.train.Saver()
 # Launch the graph
 # 启动图
 with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
     saver.restore(sess, save_file)
-
-    summary_writer = tf.train.SummaryWriter('/tmp/logdir', sess.graph)
-
     # Training cycle
     # 训练循环
     for epoch in range(n_epochs):
@@ -69,10 +67,7 @@ with tf.Session() as sess:
         # 遍历所有 batch
         for i in range(total_batch):
             batch_features, batch_labels = mnist.train.next_batch(batch_size)
-            print(batch_labels)
-            sess.run(
-                optimizer,
-                feed_dict={features: batch_features, labels: batch_labels})
+            sess.run(optimizer,feed_dict={features: batch_features, labels: batch_labels})
 
         # Print status for every 10 epochs
         # 每运行10个 epoch 打印一次状态
