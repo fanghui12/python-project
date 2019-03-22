@@ -131,8 +131,8 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     train_writer = tf.summary.FileWriter('logs/train',sess.graph)
     test_writer = tf.summary.FileWriter('logs/test',sess.graph)
-    saver.restore(sess, save_file)
-    for epoch in range(301):
+    #saver.restore(sess, save_file)
+    for epoch in range(1001):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
         sess.run(train_step, feed_dict={x: batch_xs, y: batch_ys,keep_prob:1.0})
         #记录训练集计算的参数

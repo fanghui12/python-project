@@ -1,12 +1,6 @@
 import tensorflow as tf
 import cv2
-import random
 import numpy as np
-import time
-import matplotlib.pyplot as plt
-
-
-
 
 #获取tensor张量
 reader = tf.train.NewCheckpointReader('mode/mnist_model.ckpt')
@@ -55,7 +49,7 @@ with tf.Session() as sess:
         conv2d = sess.run(Conv2D, feed_dict={x: image, keep_prob: 1.0})#(1,28,28,32)
         outImage = np.zeros((784,32))
         outImage = np.reshape(conv2d,(784,32))
-        for i in range(12):
+        for i in range(12):#先显示12个权重图
          fileName = "w" + str(i)
          cv2.imshow(fileName,np.reshape((outImage[:,i]),(28,28)))
 
