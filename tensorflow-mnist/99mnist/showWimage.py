@@ -55,7 +55,7 @@ with tf.Session() as sess:
         dst = np.zeros((24 * 4,#图片宽*图片行个数
                         24 * 8)) #图片高*图片列个数
         rows_th = cols_th = 0
-        for i in range(32):#先显示12个权重图
+        for i in range(32):#32个权重图
           fileName = "w" + str(i)
           pinjieimage = np.reshape((outImage[:, i]), (24, 24))
           shape = pinjieimage.shape  # 三通道的影像需把-1改成1
@@ -77,7 +77,7 @@ with tf.Session() as sess:
         dst = np.zeros((8 * 8,#图片宽*图片行个数
                         8 * 8)) #图片高*图片列个数
         rows_th=cols_th=0
-        for i in range(64):#先显示12个权重图
+        for i in range(64):#64个权重图
           fileName = "w" + str(i)
           #cv2.imshow(fileName,np.reshape((outImage[:,i]),(8,8)))
           pinjieimage = np.reshape((outImage[:, i]), (8, 8))
@@ -88,7 +88,7 @@ with tf.Session() as sess:
           if i%8 == 0 and i!=0:
             rows_th =rows_th+1
             cols_th=0
-          print(rows_th,cols_th,cols,rows)
+          #print(rows_th,cols_th,cols,rows)
           dst[rows_th * rows:(rows_th + 1) * rows, cols_th * cols:(cols_th + 1) * cols] = pinjieimage
           cols_th = cols_th + 1
         cv2.imshow("conv2d_2", dst)

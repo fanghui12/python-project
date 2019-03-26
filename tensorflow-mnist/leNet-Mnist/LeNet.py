@@ -57,8 +57,8 @@ def LeNet(x):
     sigma = 0.1
 
     # SOLUTION: Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
-    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 1, 6), mean=mu, stddev=sigma))
-    conv1_b = tf.Variable(tf.zeros(6))
+    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 1, 6), mean=mu, stddev=sigma),name="conv1_w")
+    conv1_b = tf.Variable(tf.zeros(6),name='conv1_b')
     conv1 = tf.nn.conv2d(x, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b
 
     # SOLUTION: Activation.
@@ -68,8 +68,8 @@ def LeNet(x):
     conv1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
 
     # SOLUTION: Layer 2: Convolutional. Output = 10x10x16.
-    conv2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 6, 16), mean=mu, stddev=sigma))
-    conv2_b = tf.Variable(tf.zeros(16))
+    conv2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 6, 16), mean=mu, stddev=sigma),name='conv2_w')
+    conv2_b = tf.Variable(tf.zeros(16),name='conv2_b')
     conv2 = tf.nn.conv2d(conv1, conv2_W, strides=[1, 1, 1, 1], padding='VALID') + conv2_b
 
     # SOLUTION: Activation.

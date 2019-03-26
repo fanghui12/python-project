@@ -31,7 +31,7 @@ b3 = tf.Variable(tf.zeros([10]) + 0.1,name='b3')
 prediction = tf.nn.softmax(tf.matmul(L2_drop, W3) + b3,name='prediction')
 
 # cost function
-with tf.name_scope('loss'):
+with tf.variable_scope('loss'):
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=prediction))
     tf.summary.scalar('loss', loss)
 # train with gradient descent
@@ -43,7 +43,7 @@ init = tf.global_variables_initializer()
 # find accuracy of trained model
 correct_prediction = tf.equal(tf.argmax(y, 1),
                               tf.argmax(prediction, 1))  # convert a list of booleans into a single boolean value
-with tf.name_scope('accuracy'):
+with tf.variable_scope('accuracy'):
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     tf.summary.scalar('accuracy', accuracy)
 
