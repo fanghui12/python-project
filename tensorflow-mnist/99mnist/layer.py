@@ -65,7 +65,8 @@ with tf.Session() as sess:
         #===========================conv2d_1===============================
         image = np.reshape(img, (-1, 28, 28, 1))
         #conv2d_1 = sess.run(Conv2D_1, feed_dict={x: image, keep_prob: 1.0})#(1,24,24,32)
-        prediction1 = sess.run(prediction,feed_dict={x: image, keep_prob: 1.0})
+        x1,Conv2D_11,prediction1 = sess.run([x,Conv2D_1,prediction],feed_dict={x: image, keep_prob: 1.0})
+        print(Conv2D_11)
         print(prediction1)
 cap.release()
 cv2.destroyAllWindows()

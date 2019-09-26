@@ -57,7 +57,7 @@ with tf.name_scope('Conv1'):
 
 with tf.name_scope('Conv2'):
     with tf.name_scope('W_conv2'):
-        W_conv2=weight_variable([5,5,32,64],name="W_conv2")#5x5的卷积核，32个卷积核从1个特征平面抽取特征
+        W_conv2=weight_variable([5,5,32,64],name="W_conv2")#5x5的卷积核，64个卷积核从32个特征平面抽取特征
     with tf.name_scope('b_conv2'):
         b_conv2=bias_variable([64],name='b_conv2')#每个卷积核对应一个偏置值
 
