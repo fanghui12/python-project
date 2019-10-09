@@ -21,7 +21,10 @@ from tensorflow.models.research.object_detection.utils import visualization_util
 
 ##################### Download Model，如果本地已下载也可修改成本地路径
 # What model to download.
-MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
+#MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
+MODEL_NAME = 'ssd_mobilenet_v1_coco_2018_01_28'
+#MODEL_NAME = 'faster_rcnn_inception_v2_coco_2018_01_28'
+#MODEL_NAME = 'mask_rcnn_inception_v2_coco_2018_01_28'
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
@@ -106,9 +109,9 @@ with detection_graph.as_default():
             np.squeeze(scores),
             category_index,
             use_normalized_coordinates=True,
-            line_thickness=8)
-        print("boxes:",boxes)
-        print("classes:",classes)
+            line_thickness=4)
+        # print("boxes:",boxes)
+        # print("classes:",classes)
         print(TEST_IMAGE_PATH.split('.')[0] + '_labeled.jpg')
         plt.figure(figsize=IMAGE_SIZE, dpi=300)
         cv2.imshow("image",image_np)

@@ -2,20 +2,11 @@
 import numpy as np
 import os
 import six.moves.urllib as urllib
-import sys
 import tarfile
 import tensorflow as tf
-import zipfile
-import matplotlib
 import cv2
 
-# Matplotlib chooses Xwindows backend by default.
-matplotlib.use('Agg')
 
-from collections import defaultdict
-from io import StringIO
-from matplotlib import pyplot as plt
-from PIL import Image
 from tensorflow.models.research.object_detection.utils import label_map_util
 from tensorflow.models.research.object_detection.utils import visualization_utils as vis_util
 
@@ -23,6 +14,8 @@ from tensorflow.models.research.object_detection.utils import visualization_util
 # What model to download.
 #MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
 MODEL_NAME = 'ssd_mobilenet_v1_coco_2018_01_28'
+#MODEL_NAME = 'faster_rcnn_inception_v2_coco_2018_01_28'
+#MODEL_NAME = 'mask_rcnn_inception_v2_coco_2018_01_28'
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
@@ -111,7 +104,7 @@ with detection_graph.as_default():
                 np.squeeze(oScores),
                 category_index,
                 use_normalized_coordinates=True,
-                line_thickness=8)
+                line_thickness=2)
 
             cv2.imshow("image",image_np)
 

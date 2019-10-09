@@ -7,8 +7,8 @@ from tensorflow.models.research.object_detection.utils import visualization_util
 
 class TOD(object):
     def __init__(self):
-        self.PATH_TO_CKPT = r'D:\tensorflow\ssd_mobilenet_v1_coco_2018_01_28\frozen_inference_graph.pb'
-        self.PATH_TO_LABELS = r'D:\tensorflow\ssd_mobilenet_v1_coco_2018_01_28\pet_label_map.pbtxt'
+        self.PATH_TO_CKPT = 'ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.pb'
+        self.PATH_TO_LABELS = 'data/mscoco_label_map.pbtxt'
         self.NUM_CLASSES = 1
         self.detection_graph = self._load_model()
         self.category_index = self._load_label_map()
@@ -24,9 +24,9 @@ class TOD(object):
         return detection_graph
 
     def _load_label_map(self):
+        print('Loading label map...')
         label_map = label_map_util.load_labelmap(self.PATH_TO_LABELS)
-        categories = label_map_util.convert_label_map_to_categories(label_map,
-                                                                    max_num_classes=self.NUM_CLASSES,
+        categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=self.NUM_CLASSES,
                                                                     use_display_name=True)
         category_index = label_map_util.create_category_index(categories)
         return category_index
@@ -37,7 +37,6 @@ class TOD(object):
                 # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
                 image_np_expanded = np.expand_dims(image, axis=0)
                 image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
-                print(image_tensor)
                 boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
                 scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
                 classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
@@ -46,6 +45,7 @@ class TOD(object):
                 (boxes, scores, classes, num_detections) = sess.run(
                     [boxes, scores, classes, num_detections],
                     feed_dict={image_tensor: image_np_expanded})
+
                 # Visualization of the results of a detection.
                 vis_util.visualize_boxes_and_labels_on_image_array(
                     image,
@@ -54,13 +54,15 @@ class TOD(object):
                     np.squeeze(scores),
                     self.category_index,
                     use_normalized_coordinates=True,
-                    line_thickness=8)
+                    line_thickness=4)
 
         cv2.namedWindow("detection", cv2.WINDOW_NORMAL)
         cv2.imshow("detection", image)
         cv2.waitKey(0)
 
 if __name__ == '__main__':
-    image = cv2.imread('image.jpg')
+    # fram = cv2.VideoCapture(0)
+    # _,image = fram.read()
+    image = cv2.imread('test_images/image1.jpg')
     detecotr = TOD()
     detecotr.detect(image)
